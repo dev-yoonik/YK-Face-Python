@@ -12,7 +12,7 @@ For more information please [contact us](mailto:info@yoonik.me).
 Install the module using [pip](https://pypi.python.org/pypi/pip/):
 
 ```bash
-pip install yk-face
+pip install yk_face
 ```
 
 Use it:
