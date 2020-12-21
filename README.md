@@ -3,6 +3,9 @@
 
 # YooniK Face API: Python SDK & Sample
 
+[![PyPi Version](https://img.shields.io/pypi/v/yk_face.svg)](https://pypi.org/project/yk-face/)
+[![License](https://img.shields.io/pypi/l/yk_face.svg)](https://github.com/dev-yoonik/YK-Face-Python/blob/master/LICENSE)
+
 This repository contains the Python SDK for the YooniK Face API, an offering within [YooniK Services](https://yoonik.me)
 
 For more information please [contact us](mailto:info@yoonik.me).

@@ -10,11 +10,18 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="YooniK",
-    email="tech@yoonik.me",
-    url="",
+    author_email="tech@yoonik.me",
+    url="https://github.com/dev-yoonik/YK-Face-Python",
+    license='MIT',
     packages=["yk_face"],
     install_requires=[
         'yk-face-api-model',
         'requests',
-    ]
+    ],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.6',
 )
