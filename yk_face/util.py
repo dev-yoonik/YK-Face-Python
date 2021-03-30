@@ -19,7 +19,7 @@ class YoonikFaceException(Exception):
     def __str__(self):
         return ('Error when calling YooniK Face API:\n'
                 '\tstatus_code: {}\n'
-                '\tmessage: {}\n').format(self.status_code, self.msg)
+                '\tmessage: {}\n').format(self.status_code, self.message)
 
 
 class Key:
@@ -66,7 +66,9 @@ def request(method, url, data=None, json=None, headers=None, params=None):
     headers = headers or {}
     if 'Content-Type' not in headers:
         headers['Content-Type'] = 'application/json'
-    headers['x-api-key'] = Key.get()
+    api_key = Key.get()
+    if api_key:
+        headers['x-api-key'] = api_key
 
     response = requests.request(
         method,
