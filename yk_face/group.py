@@ -1,7 +1,7 @@
 """Group module of the YooniK Face API.
 """
 from typing import List
-from yk_face_api.models.face_api import TemplateRequest
+from yk_face_api_models import TemplateRequest
 from yk_face import util
 
 

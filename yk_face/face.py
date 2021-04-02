@@ -1,7 +1,7 @@
 """Face module of the YooniK Face API.
 """
 from typing import List, Dict
-from yk_face_api.models.face_api import ProcessRequest, VerifyRequest, VerifyIdRequest, IdentifyRequest
+from yk_face_api_models import ProcessRequest, VerifyRequest, VerifyIdRequest, IdentifyRequest
 from yk_face import util
 
 
