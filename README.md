@@ -8,8 +8,6 @@
 
 This repository contains the Python SDK for the YooniK Face API, an offering within [YooniK Services](https://yoonik.me)
 
-For more information please [contact us](mailto:info@yoonik.me).
-
 ## Getting started
 
 Install the module using [pip](https://pypi.python.org/pypi/pip/):
@@ -43,6 +41,11 @@ python setup.py install
 ## Running the sample
 
 A sample python script is also provided. Please check the sample directory in this repository.
+
+## Contact & Support
+
+For more information and trial licenses please [contact us](mailto:tech@yoonik.me) or join us at our [discord community](https://discord.gg/SqHVQUFNtN).
+
 
 
 
