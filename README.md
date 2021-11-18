@@ -42,6 +42,11 @@ python setup.py install
 
 A sample python script is also provided. Please check the sample directory in this repository.
 
+## YooniK Face API Details
+
+For a complete specification of our Face API please check the [swagger file](https://dev-yoonik.github.io/YK-Face-Documentation/).
+
+
 ## Contact & Support
 
 For more information and trial licenses please [contact us](mailto:tech@yoonik.me) or join us at our [discord community](https://discord.gg/SqHVQUFNtN).
