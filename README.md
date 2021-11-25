@@ -1,12 +1,12 @@
 
-![https://yoonik.me/wp-content/uploads/2019/08/cropped-LogoV4_TRANSPARENT.png](https://yoonik.me/wp-content/uploads/2019/08/cropped-LogoV4_TRANSPARENT.png)
+![https://yk-website-images.s3.eu-west-1.amazonaws.com/LogoV4_TRANSPARENT.png](https://yk-website-images.s3.eu-west-1.amazonaws.com/LogoV4_TRANSPARENT.png)
 
 # YooniK Face API: Python SDK & Sample
 
 [![PyPi Version](https://img.shields.io/pypi/v/yk_face.svg)](https://pypi.org/project/yk-face/)
 [![License](https://img.shields.io/pypi/l/yk_face.svg)](https://github.com/dev-yoonik/YK-Face-Python/blob/master/LICENSE)
 
-This repository contains the Python SDK for the YooniK Face API, an offering within [YooniK Services](https://yoonik.me)
+This repository contains the Python SDK for the YooniK Face API, an offering within [YooniK Services](https://www.yoonik.me)
 
 ## Getting started
 
