@@ -1,0 +1,31 @@
+name: "Deploying Python Package to PyPi"
+
+on:
+  release:
+    types: [ published ]
+
+env:
+  PY_VERSION: 3.6
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ env.PY_VERSION }}
+
+    - name: Install build dependencies
+      run: pip install -U setuptools wheel build
+
+    - name: Build
+      run: python -m build .
+
+    - name: Publish
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
