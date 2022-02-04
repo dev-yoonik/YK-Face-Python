@@ -1,8 +1,9 @@
 """Face module of the YooniK Face API.
 """
 from typing import List, Dict
+from yk_utils.image import parse_image
+from yk_utils.apis import request
 from yk_face_api_models import ProcessRequest, VerifyRequest, VerifyIdRequest, IdentifyRequest
-from yk_face import util
 
 
 def process(image, processings: List[str] = None) -> List[Dict]:
@@ -23,11 +24,11 @@ def process(image, processings: List[str] = None) -> List[Dict]:
     if image is None:
         raise ValueError("image must be provided")
 
-    image_b64 = util.parse_image(image)
+    image_b64 = parse_image(image)
     if processings is None:
         processings = ['detect', 'analyze', 'templify']
     process_request = ProcessRequest(image_b64, processings).to_dict()
-    return util.request('POST', url, json=process_request)
+    return request('POST', url, json=process_request)
 
 
 def verify(face_template: str, another_face_template: str) -> float:
@@ -41,7 +42,7 @@ def verify(face_template: str, another_face_template: str) -> float:
     """
     url = 'face/verify'
     verify_request = VerifyRequest(face_template, another_face_template).to_dict()
-    json_response = util.request('POST', url, json=verify_request)
+    json_response = request('POST', url, json=verify_request)
     return float(json_response['score'])
 
 
@@ -58,7 +59,7 @@ def verify_id(face_template: str, person_id: str, group_id: str) -> float:
     """
     url = 'face/verify_id'
     verify_id_request = VerifyIdRequest(template=face_template, template_id=person_id, gallery_id=group_id).to_dict()
-    json_response = util.request('POST', url, json=verify_id_request)
+    json_response = request('POST', url, json=verify_id_request)
     return float(json_response['score'])
 
 
@@ -81,4 +82,4 @@ def identify(face_template: str, group_id: str, minimum_score: float = -1.0,
                                        candidate_list_length=candidate_list_length,
                                        minimum_score=minimum_score,
                                        gallery_id=group_id).to_dict()
-    return util.request('POST', url, json=identify_request)
+    return request('POST', url, json=identify_request)

@@ -2,7 +2,7 @@
 """
 from typing import List
 from yk_face_api_models import TemplateRequest
-from yk_face import util
+from yk_utils.apis import request
 
 
 def create(group_id: str):
@@ -15,7 +15,7 @@ def create(group_id: str):
         raise ValueError("Group ID must be specified.")
 
     url = f'gallery/{group_id}'
-    util.request('POST', url)
+    request('POST', url)
 
 
 def delete(group_id: str):
@@ -28,7 +28,7 @@ def delete(group_id: str):
         raise ValueError("Group ID must be specified.")
 
     url = f'gallery/{group_id}'
-    util.request('DELETE', url)
+    request('DELETE', url)
 
 
 def list_ids(group_id: str) -> List[str]:
@@ -42,7 +42,7 @@ def list_ids(group_id: str) -> List[str]:
         raise ValueError("Group ID must be specified.")
 
     url = f'gallery/{group_id}'
-    return util.request('GET', url)
+    return request('GET', url)
 
 
 def add_person(group_id: str, person_id: str, face_template: str):
@@ -62,7 +62,7 @@ def add_person(group_id: str, person_id: str, face_template: str):
 
     url = f'gallery/{group_id}/{person_id}'
     template_request = TemplateRequest(face_template).to_dict()
-    util.request('POST', url, json=template_request)
+    request('POST', url, json=template_request)
 
 
 def get_person_template(group_id: str, person_id: str) -> str:
@@ -80,7 +80,7 @@ def get_person_template(group_id: str, person_id: str) -> str:
         raise ValueError("Person ID must be specified.")
 
     url = f'gallery/{group_id}/{person_id}'
-    json_response = util.request('GET', url)
+    json_response = request('GET', url)
     return json_response['template']
 
 
@@ -98,4 +98,4 @@ def remove_person(group_id: str, person_id: str):
         raise ValueError("Person ID must be specified.")
 
     url = f'gallery/{group_id}/{person_id}'
-    util.request('DELETE', url)
+    request('DELETE', url)
