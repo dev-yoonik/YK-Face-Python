@@ -16,7 +16,7 @@ setup(
     packages=["yk_face"],
     install_requires=[
         'yk-face-api-model',
-        'yk-utils'
+        'yk-utils',
         'requests',
     ],
     classifiers=[
