@@ -15,8 +15,8 @@ setup(
     license='MIT',
     packages=["yk_face"],
     install_requires=[
-        'yk-face-api-model',
-        'yk-utils',
+        'yk-face-api-model>=2.0.0,<3',
+        'yk-utils>=1.1.0,<2',
         'requests',
     ],
     classifiers=[

@@ -1,7 +1,7 @@
 """Face module of the YooniK Face API.
 """
 from typing import List, Dict
-from yk_utils.image import parse_image
+from yk_utils.images import parse_image
 from yk_utils.apis import request
 from yk_face_api_models import ProcessRequest, VerifyRequest, VerifyIdRequest, IdentifyRequest
 
