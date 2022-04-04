@@ -86,7 +86,7 @@ def identify(face_template: str, group_id: str, minimum_score: float = -1.0,
     return request('POST', url, json=identify_request)
 
 
-def verify_images(first_image: str, second_image: str) -> float:
+def verify_images(first_image, second_image) -> float:
     """
         Verifies if the face detected on the first image belongs to the
         face detected on the second image.
