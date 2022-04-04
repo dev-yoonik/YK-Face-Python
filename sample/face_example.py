@@ -18,6 +18,9 @@ print(f'Detected faces: {detected_faces}')
 matching_score = YKF.face.verify(detected_faces[0]['template'], detected_faces[0]['template'])
 print(f'Verify - Matching score: {matching_score}')
 
+verify_images = YKF.face.verify_images(img_file_path, img_file_path)
+print(f"Verify images - Matching score: {verify_images}")
+
 # Create a group
 group_id = 'demo_group'
 YKF.group.create(group_id)

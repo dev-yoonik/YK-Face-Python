@@ -19,3 +19,8 @@ class BaseUrl:
     @classmethod
     def set(cls, base_url: str):
         yk_utils.apis.BaseUrl.set(base_url)
+
+
+class FaceException(Exception):
+    """ YooniK Face Exception """
+    pass
