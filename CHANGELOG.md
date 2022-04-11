@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## unreleased
 
 ### Added
+- Face process validation function.
 - Verify images function.
 - FaceException class.
 
