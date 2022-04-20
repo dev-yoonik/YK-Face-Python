@@ -4,6 +4,7 @@ from typing import List, Dict
 from yk_utils.images import parse_image
 from yk_utils.apis import request
 from yk_face_api_models import ProcessRequest, VerifyRequest, VerifyIdRequest, IdentifyRequest
+from yk_face.util import FaceException, face_process_validation
 
 
 def process(image, processings: List[str] = None) -> List[Dict]:
@@ -83,3 +84,28 @@ def identify(face_template: str, group_id: str, minimum_score: float = -1.0,
                                        minimum_score=minimum_score,
                                        gallery_id=group_id).to_dict()
     return request('POST', url, json=identify_request)
+
+
+def verify_images(first_image, second_image) -> float:
+    """
+        Verifies if the face detected on the first image matches to the
+        face detected on the second image.
+    :param first_image:
+        A base64 string or a file path or a file-like object representing an image.
+    :param second_image:
+        A base64 string or a file path or a file-like object representing an image.
+    :return:
+        Matching Score.
+    """
+    first_face = process(first_image)
+    second_face = process(second_image)
+
+    error_message = face_process_validation(first_face)
+    if error_message:
+        raise FaceException(f"First image: {error_message}")
+
+    error_message = face_process_validation(second_face)
+    if error_message:
+        raise FaceException(f"Second image: {error_message}")
+
+    return verify(first_face[0]["template"], second_face[0]["template"])
