@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Added async coverage to all face and group function endpoints.
 
+## v0.2.0
+
+### Added
+- Face process validation function.
+- Verify images function.
+- FaceException class.
+
 ## v0.1.3
 
 ### Changed
