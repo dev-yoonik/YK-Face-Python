@@ -9,7 +9,7 @@ import yk_face as YKF
 from yk_utils.apis import YoonikApiException
 
 BASE_URL = os.getenv('YK_FACE_BASE_URL')
-YKF.BaseUrl.set(BASE_URL)i
+YKF.BaseUrl.set(BASE_URL)
 
 KEY = os.getenv('YK_FACE_X_API_KEY')
 YKF.Key.set(KEY)
@@ -17,10 +17,20 @@ YKF.Key.set(KEY)
 
 __image_file = './sample/detection1.jpg'
 __person_id = "person1"
-__template = None
+__template: str
 
 __group_id_async = "test_face_sdk_py_group_async"
 __group_id = "test_face_sdk_py_group"
+
+
+def random_str(length: int = 190) -> str:
+    """
+    Generate random string
+    :param length: length of the string to create
+    :return:
+    """
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(length))
 
 
 @pytest.fixture
@@ -64,14 +74,11 @@ def test_face_process_with_invalid_image(use_async: bool, loop: asyncio.Abstract
     :param loop: event loop for the current test
     :return:
     """
-    # generate random string
-    letters = string.ascii_lowercase
-    result_str = ''.join(random.choice(letters) for i in range(190))
     with pytest.raises(YoonikApiException) as exception:
         if use_async:
-            loop.run_until_complete(face.process_async(result_str))
+            loop.run_until_complete(face.process_async(random_str()))
         else:
-            face.process(result_str)
+            face.process(random_str())
         assert exception.value.status_code == 400
 
 
@@ -96,23 +103,48 @@ def test_face_verify_with_valid_templates(use_async: bool, loop: asyncio.Abstrac
     assert response > 0
 
 
+@pytest.mark.parametrize('use_async', [(True,), (False,)])
+def test_face_verify_with_invalid_templates(use_async: bool, loop: asyncio.AbstractEventLoop):
+    """
+    Test sync and async invalid verify request.
+    :param use_async: flag to use the async function
+    :param loop: event loop for the current test
+    :return:
+    """
+    _str = random_str()
+    with pytest.raises(YoonikApiException) as exception:
+        if use_async:
+            face.verify(_str, _str)
+        else:
+            loop.run_until_complete(
+                face.verify_async(
+                    _str,
+                    _str
+                )
+            )
+        assert exception.value.status_code == 400
+
+
 @pytest.mark.parametrize('use_async, group_id', [
     (True, __group_id_async),
     (False, __group_id)
 ])
 def test_group_create(use_async: bool, group_id: str, loop: asyncio.AbstractEventLoop):
     """
-    Test sync and async valid verify request.
+    Test sync and async valid group create request.
     :param use_async: flag to use the async function
     :param group_id: group identifier
     :param loop: event loop for the current test
     :return:
         Passes if no exception is raised.
     """
-    if use_async:
-        loop.run_until_complete(YKF.group.create_async(group_id))
-    else:
-        YKF.group.create(group_id)
+    try:
+        if use_async:
+            loop.run_until_complete(YKF.group.create_async(group_id))
+        else:
+            YKF.group.create(group_id)
+    except YoonikApiException:
+        assert False
 
 
 @pytest.mark.parametrize('use_async, group_id', [
@@ -128,20 +160,23 @@ def test_group_add_person(use_async: bool, group_id: str, loop: asyncio.Abstract
     :return:
         Passes if no exception is raised.
     """
-    if use_async:
-        loop.run_until_complete(
-            YKF.group.add_person_async(
+    try:
+        if use_async:
+            loop.run_until_complete(
+                YKF.group.add_person_async(
+                    group_id=group_id,
+                    person_id=__person_id,
+                    face_template=__template
+                )
+            )
+        else:
+            YKF.group.add_person(
                 group_id=group_id,
                 person_id=__person_id,
                 face_template=__template
             )
-        )
-    else:
-        YKF.group.add_person(
-            group_id=group_id,
-            person_id=__person_id,
-            face_template=__template
-        )
+    except YoonikApiException:
+        assert False
 
 
 @pytest.mark.parametrize('use_async, group_id', [
@@ -159,7 +194,7 @@ def test_group_add_person_to_invalid_group(
     :param group_id: group identifier
     :param loop: event loop for the current test
     :return:
-        It passes if YoonikApiException is raised
+        Passes if YoonikApiException is raised
     """
     with pytest.raises(YoonikApiException) as exception:
         if use_async:
@@ -186,7 +221,7 @@ def test_group_add_person_to_invalid_group(
 ])
 def test_group_list_ids(use_async: bool, group_id: str, loop: asyncio.AbstractEventLoop):
     """
-    Test sync and async invalid group list_ids request.
+    Test sync and async valid group list_ids request.
     :param use_async: flag to use the async function
     :param group_id: group identifier
     :param loop: event loop for the current test
@@ -331,7 +366,7 @@ def test_group_remove_person(
                     person_id=__person_id,
                     group_id=group_id,
                 )
-    except YoonikApiException as exception:
+    except YoonikApiException:
         assert False
 
 
@@ -360,7 +395,7 @@ def test_group_delete(
             )
         else:
             YKF.group.delete(group_id=group_id)
-    except YoonikApiException as exception:
+    except YoonikApiException:
         assert False
 
 
