@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="yk_face",
-    version="0.1.3",
+    version="0.2.0",
     description="Python SDK for the YooniK Face API.",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -16,9 +16,11 @@ setup(
     packages=["yk_face"],
     install_requires=[
         'yk-face-api-model>=2.0.0,<3',
-        'yk-utils>=1.1.0,<2',
-        'requests',
+        'yk-utils>=1.3.0,<2'
     ],
+    extras_require={
+      "tests": ['pytest'],
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

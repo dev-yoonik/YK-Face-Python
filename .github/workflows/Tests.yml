@@ -1,0 +1,24 @@
+# This is intended to execute the tests scripts.
+name: "Tests"
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  PY_VERSION: 3.6
+  YK_FACE_API_URL: ${{ secrets.YK_FACE_BASE_URL }}
+  YK_FACE_API_KEY: ${{ secrets.YK_FACE_X_API_KEY }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Install dependencies
+      run: pip install .["tests"]
+
+    - name: Execute Tests
+      run: pytest ./tests
