@@ -1,5 +1,6 @@
 """Face module of the YooniK Face API.
 """
+import asyncio
 from dataclasses import dataclass
 from typing import List, Dict
 from yk_utils.images import parse_image
@@ -232,3 +233,32 @@ def verify_images(first_image, second_image) -> float:
         raise FaceException(f"Second image: {error_message}")
 
     return verify(first_face[0]["template"], second_face[0]["template"])
+
+
+async def verify_images_async(first_image, second_image) -> float:
+    """
+        Verifies if the face detected on the first image matches to the
+        face detected on the second image.
+        Performs the requests asynchronously.
+    :param first_image:
+        A base64 string or a file path or a file-like object representing an image.
+    :param second_image:
+        A base64 string or a file path or a file-like object representing an image.
+    :return:
+        Matching Score.
+    """
+    responses = await asyncio.gather(
+        process_async(first_image),
+        process_async(second_image)
+    )
+    first_face, second_face = responses[0], responses[1]
+
+    error_message = face_process_validation(first_face)
+    if error_message:
+        raise FaceException(f"First image: {error_message}")
+
+    error_message = face_process_validation(second_face)
+    if error_message:
+        raise FaceException(f"Second image: {error_message}")
+
+    return await verify_async(first_face[0]["template"], second_face[0]["template"])

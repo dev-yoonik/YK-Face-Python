@@ -79,7 +79,7 @@ def test_face_process_with_invalid_image(use_async: bool, loop: asyncio.Abstract
             loop.run_until_complete(face.process_async(random_str()))
         else:
             face.process(random_str())
-        assert exception.value.status_code == 400
+    assert exception.value.status_code == 400
 
 
 @pytest.mark.parametrize('use_async', [(True,), (False,)])
@@ -91,14 +91,15 @@ def test_face_verify_with_valid_templates(use_async: bool, loop: asyncio.Abstrac
     :return:
     """
     if use_async:
-        response = face.verify(__template, __template)
-    else:
         response = loop.run_until_complete(
             face.verify_async(
                 __template,
                 __template
             )
         )
+    else:
+        response = face.verify(__template, __template)
+
     assert type(response) == float
     assert response > 0
 
@@ -111,18 +112,18 @@ def test_face_verify_with_invalid_templates(use_async: bool, loop: asyncio.Abstr
     :param loop: event loop for the current test
     :return:
     """
-    _str = random_str()
     with pytest.raises(YoonikApiException) as exception:
         if use_async:
-            face.verify(_str, _str)
-        else:
             loop.run_until_complete(
                 face.verify_async(
-                    _str,
-                    _str
+                    random_str(),
+                    random_str()
                 )
             )
-        assert exception.value.status_code == 400
+        else:
+            face.verify(random_str(), random_str())
+
+    assert exception.value.status_code == 400
 
 
 @pytest.mark.parametrize('use_async, group_id', [
@@ -212,7 +213,7 @@ def test_group_add_person_to_invalid_group(
                 face_template=__template
             )
 
-        assert exception.value.status_code == 404     # not found
+    assert exception.value.status_code == 404
 
 
 @pytest.mark.parametrize('use_async, group_id', [
@@ -261,7 +262,7 @@ def test_group_list_ids_with_invalid_group(
             loop.run_until_complete(YKF.group.list_ids_async(group_id))
         else:
             YKF.group.list_ids(group_id)
-        assert exception.value.status_code == 404
+    assert exception.value.status_code == 404
 
 
 @pytest.mark.parametrize('use_async, group_id', [
@@ -425,4 +426,53 @@ def test_group_delete_invalid_group_id(
         else:
             YKF.group.delete(group_id=group_id)
 
-        assert exception.value.status_code == 404
+    assert exception.value.status_code == 404
+
+
+@pytest.mark.parametrize('use_async', [(True,), (False,)])
+def test_verify_images(
+        use_async: bool,
+        loop: asyncio.AbstractEventLoop):
+    """
+    Test sync and async valid verify_images request.
+    :param use_async: flag to use the async function
+    :param loop: event loop for the current test
+    :return:
+    """
+    if use_async:
+        verify_score = loop.run_until_complete(
+            YKF.face.verify_images_async(
+                __image_file,
+                __image_file
+            )
+        )
+    else:
+        verify_score = YKF.face.verify_images(__image_file, __image_file)
+
+    assert type(verify_score) == float
+    assert verify_score > 0
+
+
+@pytest.mark.parametrize('use_async', [(True,), (False,)])
+def test_verify_images_with_invalid_images(
+        use_async: bool,
+        loop: asyncio.AbstractEventLoop):
+    """
+    Test sync and async invalid verify_images request.
+    :param use_async: flag to use the async function
+    :param loop: event loop for the current test
+    :return:
+        It passes if FaceApiException is raised
+    """
+    with pytest.raises(YoonikApiException) as exception:
+        if use_async:
+            loop.run_until_complete(
+                YKF.face.verify_images_async(
+                    random_str(),
+                    random_str()
+                )
+            )
+        else:
+            YKF.face.verify_images(random_str(), random_str())
+
+    assert exception.value.status_code == 400
