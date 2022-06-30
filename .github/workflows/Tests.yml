@@ -13,12 +13,17 @@ env:
   YK_FACE_X_API_KEY: ${{ secrets.YK_FACE_X_API_KEY }}
 
 jobs:
-  build:
+  testing:
     runs-on: ubuntu-latest
+
     steps:
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PY_VERSION }}
 
-    - name: Install dependencies
-      run: pip install -e .[tests]
+      - name: Install dependencies
+      - run: pip install -e .[tests]
 
-    - name: Execute Tests
-      run: pytest ./tests
+      - name: Execute Tests
+      - run: pytest ./tests
