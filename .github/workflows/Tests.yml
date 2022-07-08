@@ -23,7 +23,7 @@ jobs:
           python-version: ${{ env.PY_VERSION }}
 
       - name: Install dependencies
-      - run: pip install -e .[tests]
+        run: pip install -e .[tests]
 
       - name: Execute Tests
-      - run: pytest ./tests
+        run: pytest ./tests
