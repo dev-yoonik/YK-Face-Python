@@ -1,7 +1,6 @@
 """Face module of the YooniK Face API.
 """
 import asyncio
-from dataclasses import dataclass
 from typing import List, Dict
 from yk_utils.images import parse_image
 from yk_utils.apis import request, request_async
@@ -9,7 +8,6 @@ from yk_face_api_models import ProcessRequest, VerifyRequest, VerifyIdRequest, I
 from yk_face.util import FaceException, face_process_validation
 
 
-@dataclass
 class FaceRouterEndpoints:
     process = "face/process"
     verify = "face/verify"

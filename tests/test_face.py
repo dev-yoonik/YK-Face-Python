@@ -242,8 +242,8 @@ def test_group_list_ids(use_async: bool, group_id: str, loop: asyncio.AbstractEv
 
 @pytest.mark.parametrize('use_async, group_id', [
     (True, 'invalidgroup1'),
-    (True, ''),
-    (False, ''),
+    (True, 'notvalidgroup2'),
+    (False, 'notvalidgroup5'),
     (False, 'invalidgroup11')
 ])
 def test_group_list_ids_with_invalid_group(
