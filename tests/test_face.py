@@ -4,7 +4,6 @@ import string
 import random
 import asyncio
 import pytest
-from yk_face import face
 import yk_face as YKF
 from yk_utils.apis import YoonikApiException
 
@@ -49,9 +48,9 @@ def test_face_process_with_valid_image(use_async: bool, loop: asyncio.AbstractEv
     :return:
     """
     if use_async:
-        response = loop.run_until_complete(face.process_async(__image_file))
+        response = loop.run_until_complete(YKF.face.process_async(__image_file))
     else:
-        response = face.process(__image_file)
+        response = YKF.face.process(__image_file)
 
     assert type(response) == list
     detected_face: dict = response[0]
@@ -76,9 +75,9 @@ def test_face_process_with_invalid_image(use_async: bool, loop: asyncio.Abstract
     """
     with pytest.raises(YoonikApiException) as exception:
         if use_async:
-            loop.run_until_complete(face.process_async(random_str()))
+            loop.run_until_complete(YKF.face.process_async(random_str()))
         else:
-            face.process(random_str())
+            YKF.face.process(random_str())
     assert exception.value.status_code == 400
 
 
@@ -92,13 +91,13 @@ def test_face_verify_with_valid_templates(use_async: bool, loop: asyncio.Abstrac
     """
     if use_async:
         response = loop.run_until_complete(
-            face.verify_async(
+            YKF.face.verify_async(
                 __template,
                 __template
             )
         )
     else:
-        response = face.verify(__template, __template)
+        response = YKF.face.verify(__template, __template)
 
     assert type(response) == float
     assert response > 0
@@ -115,13 +114,13 @@ def test_face_verify_with_invalid_templates(use_async: bool, loop: asyncio.Abstr
     with pytest.raises(YoonikApiException) as exception:
         if use_async:
             loop.run_until_complete(
-                face.verify_async(
+                YKF.face.verify_async(
                     random_str(),
                     random_str()
                 )
             )
         else:
-            face.verify(random_str(), random_str())
+            YKF.face.verify(random_str(), random_str())
 
     assert exception.value.status_code == 400
 
