@@ -1,7 +1,7 @@
 """Group module of the YooniK Face API.
 """
 from typing import List
-from yk_face_api_models import TemplateRequest
+from yk_face_api_models import Template
 from yk_utils.apis import request, request_async
 
 
@@ -107,7 +107,7 @@ def add_person(group_id: str, person_id: str, face_template: str):
         raise ValueError("Person ID must be specified.")
 
     url = f'gallery/{group_id}/{person_id}'
-    template_request = TemplateRequest(face_template).to_dict()
+    template_request = Template(template=face_template).dict()
     request('POST', url, json=template_request)
 
 
@@ -129,7 +129,7 @@ async def add_person_async(group_id: str, person_id: str, face_template: str):
         raise ValueError("Person ID must be specified.")
 
     url = f'gallery/{group_id}/{person_id}'
-    template_request = TemplateRequest(face_template).to_dict()
+    template_request = Template(template=face_template).dict()
     await request_async('POST', url, json=template_request)
 
 

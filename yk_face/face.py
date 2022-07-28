@@ -35,7 +35,10 @@ def __process_request_validation(image, processings: List[str] = None) -> dict:
     image_b64 = parse_image(image)
     if processings is None:
         processings = ['detect', 'analyze', 'templify']
-    process_request = ProcessRequest(image_b64, processings).to_dict()
+    process_request = ProcessRequest(
+        image=image_b64,
+        processings=processings
+    ).dict()
     return process_request
 
 
@@ -86,7 +89,10 @@ def verify(face_template: str, another_face_template: str) -> float:
     :return:
         The matching score.
     """
-    verify_request = VerifyRequest(face_template, another_face_template).to_dict()
+    verify_request = VerifyRequest(
+        first_template=face_template,
+        second_template=another_face_template
+    ).dict()
     json_response = request('POST', FaceRouterEndpoints.verify, json=verify_request)
     return float(json_response['score'])
 
@@ -102,7 +108,10 @@ async def verify_async(face_template: str, another_face_template: str) -> float:
     :return:
         The matching score.
     """
-    verify_request = VerifyRequest(face_template, another_face_template).to_dict()
+    verify_request = VerifyRequest(
+        first_template=face_template,
+        second_template=another_face_template
+    ).dict()
     json_response = await request_async('POST', FaceRouterEndpoints.verify, json=verify_request)
     return float(json_response['score'])
 
@@ -122,7 +131,7 @@ def verify_id(face_template: str, person_id: str, group_id: str) -> float:
         template=face_template,
         template_id=person_id,
         gallery_id=group_id
-    ).to_dict()
+    ).dict()
     json_response = request('POST', FaceRouterEndpoints.verify_id, json=verify_id_request)
     return float(json_response['score'])
 
@@ -144,7 +153,7 @@ async def verify_id_async(face_template: str, person_id: str, group_id: str) -> 
         template=face_template,
         template_id=person_id,
         gallery_id=group_id
-    ).to_dict()
+    ).dict()
 
     json_response = await request_async(
         'POST',
@@ -176,7 +185,7 @@ def identify(
         candidate_list_length=candidate_list_length,
         minimum_score=minimum_score,
         gallery_id=group_id
-    ).to_dict()
+    ).dict()
     return request('POST', FaceRouterEndpoints.identify, json=identify_request)
 
 
@@ -204,7 +213,7 @@ async def identify_async(
         candidate_list_length=candidate_list_length,
         minimum_score=minimum_score,
         gallery_id=group_id
-    ).to_dict()
+    ).dict()
     return await request_async('POST', FaceRouterEndpoints.identify, json=identify_request)
 
 
