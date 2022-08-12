@@ -7,10 +7,10 @@ import pytest
 import yk_face as YKF
 from yk_utils.apis import YoonikApiException
 
-BASE_URL = os.getenv('YK_FACE_BASE_URL')
+BASE_URL = os.environ['YK_FACE_BASE_URL']
 YKF.BaseUrl.set(BASE_URL)
 
-KEY = os.getenv('YK_FACE_X_API_KEY')
+KEY = os.environ['YK_FACE_X_API_KEY']
 YKF.Key.set(KEY)
 
 
@@ -78,7 +78,7 @@ def test_face_process_with_invalid_image(use_async: bool, loop: asyncio.Abstract
             loop.run_until_complete(YKF.face.process_async(random_str()))
         else:
             YKF.face.process(random_str())
-    assert exception.value.status_code == 409
+    assert exception.value.status_code == 400
 
 
 @pytest.mark.parametrize('use_async', [(True,), (False,)])
@@ -122,7 +122,7 @@ def test_face_verify_with_invalid_templates(use_async: bool, loop: asyncio.Abstr
         else:
             YKF.face.verify(random_str(), random_str())
 
-    assert exception.value.status_code == 409
+    assert exception.value.status_code == 400
 
 
 @pytest.mark.parametrize('use_async, group_id', [
@@ -474,4 +474,4 @@ def test_verify_images_with_invalid_images(
         else:
             YKF.face.verify_images(random_str(), random_str())
 
-    assert exception.value.status_code == 409
+    assert exception.value.status_code == 400
