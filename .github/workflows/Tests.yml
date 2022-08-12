@@ -9,6 +9,8 @@ on:
 
 env:
   PY_VERSION: 3.6
+  YK_FACE_BASE_URL: ${{ secrets.YK_FACE_BASE_URL }}
+  YK_FACE_X_API_KEY: ${{ secrets.YK_FACE_X_API_KEY }}
 
 jobs:
   testing:
@@ -27,4 +29,4 @@ jobs:
           pip install -e ".[tests]"
 
       - name: Execute Tests
-        run: YK_FACE_BASE_URL=${{ secrets.YK_FACE_BASE_URL }} YK_FACE_X_API_KEY=${{ secrets.YK_FACE_X_API_KEY }} pytest ./tests
+        run: pytest ./tests

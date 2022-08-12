@@ -7,10 +7,10 @@ import pytest
 import yk_face as YKF
 from yk_utils.apis import YoonikApiException
 
-BASE_URL = os.environ['YK_FACE_BASE_URL']
+BASE_URL = os.getenv('YK_FACE_BASE_URL')
 YKF.BaseUrl.set(BASE_URL)
 
-KEY = os.environ['YK_FACE_X_API_KEY']
+KEY = os.getenv('YK_FACE_X_API_KEY')
 YKF.Key.set(KEY)
 
 
