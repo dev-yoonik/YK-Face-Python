@@ -15,7 +15,7 @@ class FaceRouterEndpoints:
     identify = "face/identify"
 
 
-def __process_request_validation(image, processings: List[str] = None) -> dict:
+def __process_request_validation(image, processings: List[str] = None) -> List[Dict]:
     """ Validates the process endpoint request.
         :param image:
             A base64 string or a file path or a file-like object representing an image.
