@@ -28,6 +28,6 @@ jobs:
 
       - name: Execute Tests
         env:
-          YK_FACE_BASE_URL: 'https://yoonik.me'
+          YK_FACE_BASE_URL: ${{ secrets.YK_FACE_BASE_URL }}
           YK_FACE_X_API_KEY: ${{ secrets.YK_FACE_X_API_KEY }}
         run: pytest ./tests
