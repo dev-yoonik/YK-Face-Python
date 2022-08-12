@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## unreleased
 
+## v0.3.0
+
 ### Added
 
 -   Added async coverage to all face and group function endpoints.
