@@ -16,7 +16,7 @@ setup(
     packages=["yk_face"],
     install_requires=[
         'yk-face-api-model>=3.0.0,<4',
-        'yk-utils>=1.3.0,<2'
+        'yk-utils>=1.3.1,<2'
     ],
     extras_require={
       "tests": ['pytest'],
