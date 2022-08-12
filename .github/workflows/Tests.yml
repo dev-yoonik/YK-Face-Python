@@ -1,0 +1,32 @@
+# This is intended to execute the tests scripts.
+name: "Tests"
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  PY_VERSION: 3.6
+  YK_FACE_BASE_URL: ${{ secrets.YK_FACE_BASE_URL }}
+  YK_FACE_X_API_KEY: ${{ secrets.YK_FACE_X_API_KEY }}
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ env.PY_VERSION }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PY_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip wheel
+          pip install -e ".[tests]"
+
+      - name: Execute Tests
+        run: pytest ./tests
