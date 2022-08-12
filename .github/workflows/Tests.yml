@@ -9,6 +9,8 @@ on:
 
 env:
   PY_VERSION: 3.6
+  YK_FACE_BASE_URL: ${{ secrets.YK_FACE_BASE_URL }}
+  YK_FACE_X_API_KEY: ${{ secrets.YK_FACE_X_API_KEY }}
 
 jobs:
   testing:
@@ -21,10 +23,6 @@ jobs:
         with:
           python-version: ${{ env.PY_VERSION }}
 
-      -name: Set environment variables
-        run: |
-          echo "YK_FACE_BASE_URL=${{ secrets.YK_FACE_BASE_URL }}" >> $GITHUB_ENV
-          echo "YK_FACE_X_API_KEY=${{ secrets.YK_FACE_X_API_KEY }}" >> $GITHUB_ENV
       - name: Install dependencies
         run: |
           pip install -U pip wheel
