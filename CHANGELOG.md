@@ -7,15 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## unreleased
 
+## v0.3.1
+
+### Changed
+
+- Rebrand to YouFace.
+
 ## v0.3.0
 
 ### Added
 
--   Added async coverage to all face and group function endpoints.
+- Added async coverage to all face and group function endpoints.
 
 ## v0.2.0
 
 ### Added
+
 - Face process validation function.
 - Verify images function.
 - FaceException class.
