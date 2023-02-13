@@ -1,4 +1,4 @@
-"""Face module of the YooniK Face API.
+"""Face module of the YouFace API.
 """
 import asyncio
 from typing import List, Dict

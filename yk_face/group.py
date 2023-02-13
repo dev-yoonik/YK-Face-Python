@@ -1,4 +1,4 @@
-"""Group module of the YooniK Face API.
+"""Group module of the YouFace API.
 """
 from typing import List
 from yk_face_api_models import Template

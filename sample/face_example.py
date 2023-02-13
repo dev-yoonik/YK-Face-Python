@@ -6,7 +6,7 @@ import yk_face as YKF
 KEY = 'subscription key'  # Replace with a valid Subscription Key here.
 YKF.Key.set(KEY)
 
-BASE_URL = 'YooniK Face API URL'  # Replace with a valid API URL here.
+BASE_URL = 'YouFace API URL'  # Replace with a valid API URL here.
 YKF.BaseUrl.set(BASE_URL)
 
 # Detect faces in an image

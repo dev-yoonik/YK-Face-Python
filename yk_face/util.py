@@ -1,4 +1,4 @@
-""" Utilities for the Python SDK of the YooniK Face API.
+""" Utilities for the Python SDK of the YouFace API.
 """
 import yk_utils.apis
 
@@ -15,14 +15,14 @@ class Key:
 
 
 class BaseUrl:
-    """Manage YooniK Face API base URL."""
+    """Manage YouFace API base URL."""
     @classmethod
     def set(cls, base_url: str):
         yk_utils.apis.BaseUrl.set(base_url)
 
 
 class FaceException(Exception):
-    """ YooniK Face Exception """
+    """ YouFace Exception """
     pass
 
 
