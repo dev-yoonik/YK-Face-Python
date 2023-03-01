@@ -7,6 +7,8 @@ import pytest
 import yk_face as YKF
 from yk_utils.apis import YoonikApiException
 
+from yk_face_api_models import ProcessRequestConfig
+
 BASE_URL = os.getenv('YK_FACE_BASE_URL')
 YKF.BaseUrl.set(BASE_URL)
 
@@ -40,7 +42,19 @@ def loop():
 
 
 @pytest.mark.parametrize('use_async', [(True,), (False,)])
-def test_face_process_with_valid_image(use_async: bool, loop: asyncio.AbstractEventLoop):
+@pytest.mark.parametrize('configurations', [
+    [
+        ProcessRequestConfig(name="config1", value="12490812.523"),
+        ProcessRequestConfig(name="config1.1", value="stringvalue"),
+        ProcessRequestConfig(name="config2", bvalue=True),
+        ProcessRequestConfig(name="config3", bvalue=False),
+     ]
+])
+def test_face_process_with_valid_image(
+        use_async: bool,
+        configurations,
+        loop: asyncio.AbstractEventLoop
+):
     """
     Test sync and async valid process request.
     :param use_async: flag to use the async function
@@ -48,7 +62,12 @@ def test_face_process_with_valid_image(use_async: bool, loop: asyncio.AbstractEv
     :return:
     """
     if use_async:
-        response = loop.run_until_complete(YKF.face.process_async(__image_file))
+        response = loop.run_until_complete(
+            YKF.face.process_async(
+                __image_file,
+                configurations=configurations
+            )
+        )
     else:
         response = YKF.face.process(__image_file)
 
@@ -66,7 +85,19 @@ def test_face_process_with_valid_image(use_async: bool, loop: asyncio.AbstractEv
 
 
 @pytest.mark.parametrize('use_async', [(True,), (False,)])
-def test_face_process_with_invalid_image(use_async: bool, loop: asyncio.AbstractEventLoop):
+@pytest.mark.parametrize('configurations', [
+    [
+        ProcessRequestConfig(name="config1", value="12490812.523"),
+        ProcessRequestConfig(name="config1.1", value="stringvalue"),
+        ProcessRequestConfig(name="config2", bvalue=True),
+        ProcessRequestConfig(name="config3", bvalue=False),
+     ]
+])
+def test_face_process_with_invalid_image(
+        use_async: bool,
+        configurations,
+        loop: asyncio.AbstractEventLoop
+):
     """
     Test sync and async invalid process request.
     :param use_async: flag to use the async function
@@ -75,7 +106,8 @@ def test_face_process_with_invalid_image(use_async: bool, loop: asyncio.Abstract
     """
     with pytest.raises(YoonikApiException) as exception:
         if use_async:
-            loop.run_until_complete(YKF.face.process_async(random_str()))
+            loop.run_until_complete(YKF.face.process_async(random_str(),
+                                                           configurations=configurations))
         else:
             YKF.face.process(random_str())
     assert exception.value.status_code == 409

@@ -4,7 +4,8 @@ import asyncio
 from typing import List, Dict
 from yk_utils.images import parse_image
 from yk_utils.apis import request, request_async
-from yk_face_api_models import ProcessRequest, VerifyRequest, VerifyIdRequest, IdentifyRequest
+from yk_face_api_models import ProcessRequest, VerifyRequest, VerifyIdRequest, IdentifyRequest, \
+    ProcessRequestConfig
 from yk_face.util import FaceException, face_process_validation
 
 
@@ -15,8 +16,14 @@ class FaceRouterEndpoints:
     identify = "face/identify"
 
 
-def __process_request_validation(image, processings: List[str] = None) -> List[Dict]:
+def __process_request_validation(
+        image,
+        processings: List[str] = None,
+        configurations: List[ProcessRequestConfig] = None
+) -> Dict:
     """ Validates the process endpoint request.
+        :param configurations:
+            A list of ProcessRequestConfig, for dynamic configurations.
         :param image:
             A base64 string or a file path or a file-like object representing an image.
         :param processings:
@@ -37,13 +44,20 @@ def __process_request_validation(image, processings: List[str] = None) -> List[D
         processings = ['detect', 'analyze', 'templify']
     process_request = ProcessRequest(
         image=image_b64,
-        processings=processings
+        processings=processings,
+        configurations=configurations
     ).dict()
     return process_request
 
 
-def process(image, processings: List[str] = None) -> List[Dict]:
+def process(
+        image,
+        processings: List[str] = None,
+        configurations: List[ProcessRequestConfig] = None
+) -> List[Dict]:
     """Process human faces in an image.
+    :param configurations:
+        A list of ProcessRequestConfig, for dynamic configurations.
     :param image:
         A base64 string or a file path or a file-like object representing an image.
     :param processings:
@@ -56,14 +70,20 @@ def process(image, processings: List[str] = None) -> List[Dict]:
     :raises:
         ValueError if image is not provided.
     """
-    process_request = __process_request_validation(image, processings)
+    process_request = __process_request_validation(image, processings, configurations)
     return request('POST', FaceRouterEndpoints.process, json=process_request)
 
 
-async def process_async(image, processings: List[str] = None) -> List[Dict]:
+async def process_async(
+        image,
+        processings: List[str] = None,
+        configurations: List[ProcessRequestConfig] = None,
+) -> List[Dict]:
     """
     Process human faces in an image.
     Performs the request asynchronously.
+    :param configurations:
+        A list of ProcessRequestConfig, for dynamic configurations.
     :param image:
         A base64 string or a file path or a file-like object representing an image.
     :param processings:
@@ -76,7 +96,7 @@ async def process_async(image, processings: List[str] = None) -> List[Dict]:
     :raises:
         ValueError if image is not provided.
     """
-    process_request = __process_request_validation(image, processings)
+    process_request = __process_request_validation(image, processings, configurations)
     return await request_async('POST', FaceRouterEndpoints.process, json=process_request)
 
 
