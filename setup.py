@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="yk_face",
-    version="0.3.1",
+    version="0.3.2",
     description="Python SDK for the YouFace API.",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -15,7 +15,7 @@ setup(
     license='MIT',
     packages=["yk_face"],
     install_requires=[
-        'yk-face-api-model>=3.0.0,<4',
+        'yk-face-api-model>=3.0.2,<4',
         'yk-utils>=1.3.1,<2'
     ],
     extras_require={
