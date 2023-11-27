@@ -45,7 +45,7 @@ def __process_request_validation(
     process_request = ProcessRequest(
         image=image_b64,
         processings=processings,
-        configurations=configurations
+        configuration=configurations
     ).dict()
     return process_request
 
