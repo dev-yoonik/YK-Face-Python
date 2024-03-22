@@ -70,6 +70,7 @@ def process(
     :raises:
         ValueError if image is not provided.
     """
+    configurations = configurations or []
     process_request = __process_request_validation(image, processings, configurations)
     return request('POST', FaceRouterEndpoints.process, json=process_request)
 
@@ -96,6 +97,7 @@ async def process_async(
     :raises:
         ValueError if image is not provided.
     """
+    configurations = configurations or []
     process_request = __process_request_validation(image, processings, configurations)
     return await request_async('POST', FaceRouterEndpoints.process, json=process_request)
 
