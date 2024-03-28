@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v0.3.4
 
+### Added
+
+- Extra face process request argument 'processings' validations.
+
 ### Fixed
 
 - Process default configurations value to empty array instead of None.
