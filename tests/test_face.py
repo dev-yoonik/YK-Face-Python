@@ -121,7 +121,7 @@ def test_face_process_processings(
 
 @pytest.mark.parametrize('use_async', [(True,), (False,)])
 @pytest.mark.parametrize('processings', [[]])
-def test_face_process_with_empty_processings(
+def test_face_process_with_invalid_empty_processings(
         use_async: bool,
         processings,
         loop: asyncio.AbstractEventLoop
