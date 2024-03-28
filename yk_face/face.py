@@ -40,8 +40,14 @@ def __process_request_validation(
         raise ValueError("image must be provided")
 
     image_b64 = parse_image(image)
+    configurations = configurations or []
     if processings is None:
         processings = ['detect', 'analyze', 'templify']
+    elif type(processings) is not list:
+        raise TypeError("The provided processings are not of expected type.")
+    elif len(processings) == 0:
+        raise ValueError("The processings were not provided.")
+
     process_request = ProcessRequest(
         image=image_b64,
         processings=processings,
@@ -70,7 +76,6 @@ def process(
     :raises:
         ValueError if image is not provided.
     """
-    configurations = configurations or []
     process_request = __process_request_validation(image, processings, configurations)
     return request('POST', FaceRouterEndpoints.process, json=process_request)
 
@@ -97,7 +102,6 @@ async def process_async(
     :raises:
         ValueError if image is not provided.
     """
-    configurations = configurations or []
     process_request = __process_request_validation(image, processings, configurations)
     return await request_async('POST', FaceRouterEndpoints.process, json=process_request)
 
