@@ -43,12 +43,14 @@ def loop():
 
 @pytest.mark.parametrize('use_async', [(True,), (False,)])
 @pytest.mark.parametrize('configurations', [
+    None,
+    [],
     [
         ProcessRequestConfig(name="config1", value="12490812.523"),
         ProcessRequestConfig(name="config1.1", value="stringvalue"),
         ProcessRequestConfig(name="config2", bvalue=True),
         ProcessRequestConfig(name="config3", bvalue=False),
-     ]
+    ],
 ])
 def test_face_process_with_valid_image(
         use_async: bool,
@@ -82,6 +84,91 @@ def test_face_process_with_valid_image(
     assert detected_face.get("template")
     global __template
     __template = detected_face.get("template")
+
+
+@pytest.mark.parametrize('use_async', [(True,), (False,)])
+@pytest.mark.parametrize('processings', [
+    None,
+    ["detect", "analyze"],
+    ["detect", "templify"],
+    ["detect", "analyze", "templify"],
+])
+def test_face_process_processings(
+        use_async: bool,
+        processings,
+        loop: asyncio.AbstractEventLoop
+):
+    """
+    Test sync and async process request method when passed valid processings values.
+    :param use_async: flag to use the async function
+    :param loop: event loop for the current test
+    :return:
+    """
+    try:
+        if use_async:
+            loop.run_until_complete(
+                YKF.face.process_async(
+                    __image_file,
+                    configurations=[],
+                    processings=processings,
+                )
+            )
+        else:
+            YKF.face.process(__image_file)
+    except YoonikApiException as exc:
+        raise exc
+
+
+@pytest.mark.parametrize('use_async', [(True,), (False,)])
+@pytest.mark.parametrize('processings', [[]])
+def test_face_process_with_invalid_empty_processings(
+        use_async: bool,
+        processings,
+        loop: asyncio.AbstractEventLoop
+):
+    """
+    Test sync and async process request method when passed processings with empty values.
+    :param use_async: flag to use the async function
+    :param loop: event loop for the current test
+    :return:
+    """
+    with pytest.raises(ValueError):
+        if use_async:
+            loop.run_until_complete(
+                YKF.face.process_async(
+                    __image_file,
+                    configurations=[],
+                    processings=processings,
+                )
+            )
+        else:
+            YKF.face.process(__image_file)
+
+
+@pytest.mark.parametrize('use_async', [(True,), (False,)])
+@pytest.mark.parametrize('processings', [1, "2", b"4", dict(), set()])
+def test_face_process_with_invalid_processings(
+        use_async: bool,
+        processings,
+        loop: asyncio.AbstractEventLoop
+):
+    """
+    Test sync and async process request method when passed processing of incorrect type.
+    :param use_async: flag to use the async function
+    :param loop: event loop for the current test
+    :return:
+    """
+    with pytest.raises(TypeError):
+        if use_async:
+            loop.run_until_complete(
+                YKF.face.process_async(
+                    __image_file,
+                    configurations=[],
+                    processings=processings,
+                )
+            )
+        else:
+            YKF.face.process(__image_file)
 
 
 @pytest.mark.parametrize('use_async', [(True,), (False,)])

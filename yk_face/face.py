@@ -40,8 +40,14 @@ def __process_request_validation(
         raise ValueError("image must be provided")
 
     image_b64 = parse_image(image)
+    configurations = configurations or []
     if processings is None:
         processings = ['detect', 'analyze', 'templify']
+    elif type(processings) is not list:
+        raise TypeError("The provided processings are not of expected type.")
+    elif len(processings) == 0:
+        raise ValueError("The processings were not provided.")
+
     process_request = ProcessRequest(
         image=image_b64,
         processings=processings,
