@@ -107,7 +107,7 @@ def add_person(group_id: str, person_id: str, face_template: str):
         raise ValueError("Person ID must be specified.")
 
     url = f'gallery/{group_id}/{person_id}'
-    template_request = Template(template=face_template).dict()
+    template_request = Template(template=face_template).model_dump(mode='json')
     request('POST', url, json=template_request)
 
 
@@ -129,7 +129,7 @@ async def add_person_async(group_id: str, person_id: str, face_template: str):
         raise ValueError("Person ID must be specified.")
 
     url = f'gallery/{group_id}/{person_id}'
-    template_request = Template(template=face_template).dict()
+    template_request = Template(template=face_template).model_dump(mode='json')
     await request_async('POST', url, json=template_request)
 
 
