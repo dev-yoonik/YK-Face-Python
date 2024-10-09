@@ -52,7 +52,7 @@ def __process_request_validation(
         image=image_b64,
         processings=processings,
         configuration=configurations
-    ).dict()
+    ).model_dump(mode='json')
     return process_request
 
 
