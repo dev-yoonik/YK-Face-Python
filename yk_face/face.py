@@ -52,7 +52,7 @@ def __process_request_validation(
         image=image_b64,
         processings=processings,
         configuration=configurations
-    ).dict()
+    ).model_dump(mode='json')
     return process_request
 
 
@@ -118,7 +118,7 @@ def verify(face_template: str, another_face_template: str) -> float:
     verify_request = VerifyRequest(
         first_template=face_template,
         second_template=another_face_template
-    ).dict()
+    ).model_dump(mode='json')
     json_response = request('POST', FaceRouterEndpoints.verify, json=verify_request)
     return float(json_response['score'])
 
@@ -137,7 +137,7 @@ async def verify_async(face_template: str, another_face_template: str) -> float:
     verify_request = VerifyRequest(
         first_template=face_template,
         second_template=another_face_template
-    ).dict()
+    ).model_dump(mode='json')
     json_response = await request_async('POST', FaceRouterEndpoints.verify, json=verify_request)
     return float(json_response['score'])
 
@@ -157,7 +157,7 @@ def verify_id(face_template: str, person_id: str, group_id: str) -> float:
         template=face_template,
         template_id=person_id,
         gallery_id=group_id
-    ).dict()
+    ).model_dump(mode='json')
     json_response = request('POST', FaceRouterEndpoints.verify_id, json=verify_id_request)
     return float(json_response['score'])
 
@@ -179,7 +179,7 @@ async def verify_id_async(face_template: str, person_id: str, group_id: str) -> 
         template=face_template,
         template_id=person_id,
         gallery_id=group_id
-    ).dict()
+    ).model_dump(mode='json')
 
     json_response = await request_async(
         'POST',
@@ -211,7 +211,7 @@ def identify(
         candidate_list_length=candidate_list_length,
         minimum_score=minimum_score,
         gallery_id=group_id
-    ).dict()
+    ).model_dump(mode='json')
     return request('POST', FaceRouterEndpoints.identify, json=identify_request)
 
 
@@ -239,7 +239,7 @@ async def identify_async(
         candidate_list_length=candidate_list_length,
         minimum_score=minimum_score,
         gallery_id=group_id
-    ).dict()
+    ).model_dump(mode='json')
     return await request_async('POST', FaceRouterEndpoints.identify, json=identify_request)
 
 
