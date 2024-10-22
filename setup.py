@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="yk_face",
-    version="0.3.5",
+    version="0.3.6",
     description="Python SDK for the YouFace API.",
     long_description=long_description,
     long_description_content_type="text/markdown",
