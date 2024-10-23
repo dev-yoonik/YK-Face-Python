@@ -91,7 +91,7 @@ async def list_ids_async(group_id: str) -> List[str]:
     return await request_async('GET', url)
 
 
-def add_person(group_id: str, person_id: str, face_template: str):
+def add_person(group_id: str, person_id: str, face_template: str, duplicate_check=False):
     """Add a person to a group.
     :param group_id:
          ID of the group. `group_id` is created in `group.create`.
@@ -99,6 +99,8 @@ def add_person(group_id: str, person_id: str, face_template: str):
         Person ID.
     :param face_template:
         Biometric template to be associated with the provided `person_id` (obtained from `face.process`).
+    :param duplicate_check:
+         Set True to check if a template already exists with a different person_id.
     :return:
     """
     if group_id is None:
@@ -107,11 +109,12 @@ def add_person(group_id: str, person_id: str, face_template: str):
         raise ValueError("Person ID must be specified.")
 
     url = f'gallery/{group_id}/{person_id}'
-    template_request = Template(template=face_template).model_dump(mode='json')
+    template_request = Template(
+        template=face_template, duplicate_check=duplicate_check).model_dump(mode='json')
     request('POST', url, json=template_request)
 
 
-async def add_person_async(group_id: str, person_id: str, face_template: str):
+async def add_person_async(group_id: str, person_id: str, face_template: str, duplicate_check=False):
     """
     Add a person to a group.
     Performs the request asynchronously.
@@ -121,6 +124,8 @@ async def add_person_async(group_id: str, person_id: str, face_template: str):
         Person ID.
     :param face_template:
         Biometric template to be associated with the provided `person_id` (obtained from `face.process`).
+    :param duplicate_check:
+        Set True to check if a template already exists with a different person_id.
     :return:
     """
     if group_id is None:
@@ -129,7 +134,8 @@ async def add_person_async(group_id: str, person_id: str, face_template: str):
         raise ValueError("Person ID must be specified.")
 
     url = f'gallery/{group_id}/{person_id}'
-    template_request = Template(template=face_template).model_dump(mode='json')
+    template_request = Template(
+        template=face_template, duplicate_check=duplicate_check).model_dump(mode='json')
     await request_async('POST', url, json=template_request)
 
 

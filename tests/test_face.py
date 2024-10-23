@@ -18,6 +18,7 @@ YKF.Key.set(KEY)
 
 __image_file = './sample/detection1.jpg'
 __person_id = "person1"
+__person_id_duplicate = "person1_duplicate"
 __template: str
 
 __group_id_async = "test_face_sdk_py_group_async"
@@ -297,6 +298,39 @@ def test_group_add_person(use_async: bool, group_id: str, loop: asyncio.Abstract
     except YoonikApiException:
         assert False
 
+
+@pytest.mark.parametrize('use_async, group_id', [
+    (True, __group_id_async),
+    (False, __group_id)
+])
+def test_group_add_duplicate_person(use_async: bool, group_id: str, loop: asyncio.AbstractEventLoop):
+    """
+    Test sync and async group add_person request with duplicate check.
+    :param use_async: flag to use the async function
+    :param group_id: group identifier
+    :param loop: event loop for the current test
+    :return:
+        Passes if YoonikApiException is raised.
+    """
+    with pytest.raises(YoonikApiException) as exception:
+        if use_async:
+            loop.run_until_complete(
+                YKF.group.add_person_async(
+                    group_id=group_id,
+                    person_id=__person_id_duplicate,
+                    face_template=__template,
+                    duplicate_check=True
+                )
+            )
+        else:
+            YKF.group.add_person(
+                group_id=group_id,
+                person_id=__person_id_duplicate,
+                face_template=__template,
+                duplicate_check=True
+            )
+
+    assert exception.value.status_code == 409
 
 # @pytest.mark.parametrize('use_async, group_id', [
 #     (True, 'invalid_group1'),
