@@ -1,5 +1,6 @@
 """ Face Integration Tests """
 import os
+import time
 import string
 import random
 import asyncio
@@ -329,7 +330,7 @@ def test_group_add_duplicate_person(use_async: bool, group_id: str, loop: asynci
                 face_template=__template,
                 duplicate_check=True
             )
-
+    time.sleep(0.5)
     assert exception.value.status_code == 409
 
 # @pytest.mark.parametrize('use_async, group_id', [
