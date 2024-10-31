@@ -296,6 +296,7 @@ def test_group_add_person(use_async: bool, group_id: str, loop: asyncio.Abstract
                 person_id=__person_id,
                 face_template=__template
             )
+        time.sleep(1)
     except YoonikApiException:
         assert False
 
@@ -330,7 +331,6 @@ def test_group_add_duplicate_person(use_async: bool, group_id: str, loop: asynci
                 face_template=__template,
                 duplicate_check=True
             )
-    time.sleep(0.5)
     assert exception.value.status_code == 409
 
 # @pytest.mark.parametrize('use_async, group_id', [
